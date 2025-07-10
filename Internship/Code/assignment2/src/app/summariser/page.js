@@ -6,19 +6,36 @@ export default function Summariser() {
   const [summary, setSummary] = useState("");
   const [scrapedText, setScrapedText] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Simulate scraping and AI summary
-  const handleSummarise = (e) => {
+  // Fetch scraped text from API and simulate AI summary
+  const handleSummarise = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    // Simulate scraped text
-    setScrapedText(
-      "This is the simulated scraped text from the blog. It would normally be extracted from the provided URL."
-    );
-    // Simulate AI summary
-    setSummary(
-      "This is a static AI summary of the blog post. It provides a concise overview of the main points discussed in the article."
-    );
+    setSubmitted(false);
+    setLoading(true);
+    setError("");
+    setScrapedText("");
+    setSummary("");
+    try {
+      const res = await fetch("/summariser/api/scrape", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to scrape blog text.");
+      setScrapedText(data.text);
+      // Simulate AI summary (replace with real API if needed)
+      setSummary(
+        "This is a static AI summary of the blog post. It provides a concise overview of the main points discussed in the article."
+      );
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,14 +58,20 @@ export default function Summariser() {
           <button
             type="submit"
             className="rounded bg-foreground text-background px-6 py-2 text-lg font-semibold shadow hover:bg-[#383838] dark:hover:bg-[#ccc] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground"
+            disabled={loading}
           >
-            Summarise
+            {loading ? "Scraping..." : "Summarise"}
           </button>
         </form>
+        {error && (
+          <div className="text-red-600 bg-red-100 dark:bg-red-900 p-3 rounded w-full text-center">
+            {error}
+          </div>
+        )}
         {submitted && (
           <div className="mt-6 w-full">
             <h2 className="text-xl font-semibold mb-2">Scraped Blog Text</h2>
-            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded mb-4 text-sm whitespace-pre-line">
+            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded mb-4 text-sm whitespace-pre-line max-h-64 overflow-y-auto">
               {scrapedText}
             </div>
             <h2 className="text-xl font-semibold mb-2">AI Summary</h2>
