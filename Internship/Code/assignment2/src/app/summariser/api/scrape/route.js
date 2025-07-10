@@ -1,3 +1,4 @@
+import genAI from "@/app/utils/gemini";
 import * as cheerio from "cheerio";
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
@@ -25,7 +26,22 @@ export async function POST(request) {
     let text = $("main").text() || $("article").text() || $("body").text();
     // Remove extra whitespace and line breaks
     text = text.replace(/\s+/g, " ").trim();
-    return NextResponse.json({ text });
+
+    // Use Gemini to generate a summary
+    let summary = "";
+    if (text.length > 0) {
+      const model = genAI.getGenerativeModel({
+        model: "models/gemini-2.5-flash",
+      });
+      const result = await model.generateContent(
+        `Summarize the following blog post in a concise paragraph:\n${text}`
+      );
+      summary =
+        result.response.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "No summary generated.";
+    }
+
+    return NextResponse.json({ text, summary });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

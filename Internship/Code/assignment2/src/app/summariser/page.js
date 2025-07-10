@@ -9,7 +9,7 @@ export default function Summariser() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch scraped text from API and simulate AI summary
+  // Fetch scraped text and summary from API
   const handleSummarise = async (e) => {
     e.preventDefault();
     setSubmitted(false);
@@ -26,10 +26,7 @@ export default function Summariser() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to scrape blog text.");
       setScrapedText(data.text);
-      // Simulate AI summary (replace with real API if needed)
-      setSummary(
-        "This is a static AI summary of the blog post. It provides a concise overview of the main points discussed in the article."
-      );
+      setSummary(data.summary || "No summary generated.");
       setSubmitted(true);
     } catch (err) {
       setError(err.message);
@@ -60,7 +57,7 @@ export default function Summariser() {
             className="rounded bg-foreground text-background px-6 py-2 text-lg font-semibold shadow hover:bg-[#383838] dark:hover:bg-[#ccc] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-foreground"
             disabled={loading}
           >
-            {loading ? "Scraping..." : "Summarise"}
+            {loading ? "Scraping & Summarising..." : "Summarise"}
           </button>
         </form>
         {error && (
