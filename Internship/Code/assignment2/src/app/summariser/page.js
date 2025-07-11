@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Summariser() {
@@ -8,6 +9,7 @@ export default function Summariser() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   // Fetch scraped text and summary from API
   const handleSummarise = async (e) => {
@@ -75,6 +77,14 @@ export default function Summariser() {
             <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded text-base">
               {summary}
             </div>
+            <button
+              className="mt-4 rounded-full bg-green-700 text-white px-8 py-3 text-lg font-semibold shadow hover:bg-green-900 dark:hover:bg-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
+              onClick={() =>
+                router.push(`/urdu?text=${encodeURIComponent(summary)}`)
+              }
+            >
+              Translate to Urdu
+            </button>
           </div>
         )}
       </main>
