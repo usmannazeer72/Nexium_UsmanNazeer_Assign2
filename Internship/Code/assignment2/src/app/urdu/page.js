@@ -38,6 +38,15 @@ export default function UrduTranslation() {
     }
   };
 
+  useEffect(() => {
+    // Dynamically import jQuery only on the client
+    if (urduText) {
+      import("jquery").then(($) => {
+        $("#urdu-translation-result").css("background-color", "lightgreen");
+      });
+    }
+  }, [urduText]);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 gap-8 bg-background text-foreground">
       <main className="flex flex-col items-center gap-6 w-full max-w-xl">
@@ -72,7 +81,10 @@ export default function UrduTranslation() {
         {urduText && (
           <div className="mt-6 w-full">
             <h2 className="text-xl font-semibold mb-2">اردو ترجمہ</h2>
-            <div className="bg-green-100 dark:bg-green-900 p-4 rounded text-base whitespace-pre-line">
+            <div
+              id="urdu-translation-result"
+              className="bg-green-100 dark:bg-green-900 p-4 rounded text-base whitespace-pre-line"
+            >
               {urduText}
             </div>
           </div>

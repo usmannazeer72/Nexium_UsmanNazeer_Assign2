@@ -1,7 +1,10 @@
 import genAI from "@/app/utils/gemini";
+import { PrismaClient } from "@/generated/prisma";
 import * as cheerio from "cheerio";
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
+
+const prisma = new PrismaClient();
 
 export async function POST(request) {
   try {
@@ -41,8 +44,17 @@ export async function POST(request) {
         "No summary generated.";
     }
 
+    await prisma.summary.create({
+      data: {
+        originalUrl: url,
+        scrapedText: text,
+        summary: summary,
+      },
+    });
+
     return NextResponse.json({ text, summary });
   } catch (error) {
+    console.error("DB Save Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
