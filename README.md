@@ -1,4 +1,4 @@
-# Nexium Assignment 2
+# SumUp
 
 [![Try Now](https://img.shields.io/badge/Try%20Now-Live%20Demo-brightgreen?style=for-the-badge)](https://nexium-usman-nazeer-assign2-l86u-mlptqpxlx.vercel.app/)
 
