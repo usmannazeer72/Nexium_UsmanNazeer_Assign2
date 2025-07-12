@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "SumUp",
   description:
-    "SumUp - Instantly summarise and translate blogs with a beautiful, productivity-focused UI.",
+    "Instantly summarise and translate blogs with a beautiful, productivity-focused UI.",
 };
 
 export default function RootLayout({ children }) {
