@@ -5,9 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
-export default function UrduTranslation() {
+function UrduTranslationContent() {
   const [englishText, setEnglishText] = useState("");
   const [urduText, setUrduText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -131,5 +131,13 @@ export default function UrduTranslation() {
         Next.js & shadcn/ui
       </footer>
     </div>
+  );
+}
+
+export default function UrduTranslation() {
+  return (
+    <Suspense>
+      <UrduTranslationContent />
+    </Suspense>
   );
 }
