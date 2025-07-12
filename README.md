@@ -1,6 +1,6 @@
 # Blog Summariser
 
-[![Try Now](https://img.shields.io/badge/Try%20Now-Live%20Demo-brightgreen?style=for-the-badge)](https://nexium-usman-nazeer-assign2-git-5383cc-usmannazeer72s-projects.vercel.app/)
+[![Try Now](https://img.shields.io/badge/Try%20Now-Live%20Demo-brightgreen?style=for-the-badge)](https://nexium-usman-nazeer-assign2-l86u-mlptqpxlx.vercel.app/)
 
 A modern, productivity-focused web app for summarizing and translating blog content, built with Next.js, Prisma, MongoDB, Supabase, and shadcn/ui. Designed with a calm, elegant, and cozy aesthetic for daily use.
 
