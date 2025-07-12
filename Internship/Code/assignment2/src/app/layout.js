@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "SumUp",
+  title: "Create Next App",
   description:
     "Instantly summarise and translate blogs with a beautiful, productivity-focused UI.",
 };
