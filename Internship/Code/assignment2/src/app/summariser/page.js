@@ -20,6 +20,19 @@ export default function Summariser() {
     setScrapedText("");
     setSummary("");
     try {
+      // First, check if summary exists in Postgres
+      const checkRes = await fetch(
+        `/summariser/api/scrape?url=${encodeURIComponent(url)}`
+      );
+      if (checkRes.ok) {
+        const data = await checkRes.json();
+        setScrapedText(data.text);
+        setSummary(data.summary || "No summary generated.");
+        setSubmitted(true);
+        setLoading(false);
+        return;
+      }
+      // If not found, proceed to scrape
       const res = await fetch("/summariser/api/scrape", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

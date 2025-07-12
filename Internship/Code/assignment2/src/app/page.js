@@ -17,12 +17,6 @@ export default function Home() {
         >
           Summarise a Blog
         </button>
-        <button
-          className="mt-4 rounded-full bg-green-700 text-white px-8 py-3 text-lg font-semibold shadow hover:bg-green-900 dark:hover:bg-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
-          onClick={() => router.push("/urdu")}
-        >
-          Translate to Urdu
-        </button>
       </main>
     </div>
   );

@@ -68,3 +68,25 @@ export async function POST(request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function GET(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const url = searchParams.get("url");
+    if (!url) {
+      return NextResponse.json({ error: "No URL provided." }, { status: 400 });
+    }
+    const summary = await prisma.summary.findFirst({
+      where: { originalUrl: url },
+    });
+    if (!summary) {
+      return NextResponse.json({ error: "No summary found." }, { status: 404 });
+    }
+    return NextResponse.json({
+      text: summary.scrapedText,
+      summary: summary.summary,
+    });
+  } catch (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
