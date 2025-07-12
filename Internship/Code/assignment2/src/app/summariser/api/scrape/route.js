@@ -3,6 +3,9 @@ import { PrismaClient } from "@/generated/prisma";
 import * as cheerio from "cheerio";
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
+// Add Mongoose imports
+import dbConnect from "../../../../../lib/mongoose";
+import ScrapeData from "../../../../../lib/scrapeData.model";
 
 const prisma = new PrismaClient();
 
@@ -50,6 +53,13 @@ export async function POST(request) {
         scrapedText: text,
         summary: summary,
       },
+    });
+
+    // Store scrape data in MongoDB
+    await dbConnect();
+    await ScrapeData.create({
+      content: text,
+      sourceUrl: url,
     });
 
     return NextResponse.json({ text, summary });
